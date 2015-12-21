@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -26,29 +27,43 @@ public class MergeSortTest
     DateEvent[] array;
     DateEvent[] sortedArray;
 
-    /**
-     * Add elements with an UUID and random date
-     * 
-     * @param seed
-     *            the seed to use
-     */
-    public void setUp(long seed)
+    void checkArray(DateEvent[] sorted, DateEvent[] toCheck)
     {
-        array = new DateEvent[30];
+        for (int i = 0; i < sorted.length; i++)
+        {
+            assertEquals("Incorrect order!", sorted[i], toCheck[i]);
+        }
+    }
+
+    Comparator<DateEvent> sort = (a, b) ->
+    {
+        int result = a.getDate().compareTo(b.getDate());
+        return result == 0 ? a.getName().compareTo(b.getName()) : result;
+    };
+
+    Comparator<DateEvent> sort_inverse = (a, b) ->
+    {
+        return -a.compareTo(b);
+    };
+
+    DateEvent[] getSortedArray(DateEvent[] array, Comparator<DateEvent> sorter)
+    {
+        List<DateEvent> list = Arrays.asList(array);
+        Collections.sort(list, sorter);
+
+        return (DateEvent[]) list.toArray();
+    }
+
+    DateEvent[] getRandomArray()
+    {
+        DateEvent[] array = new DateEvent[30];
 
         Random r = new Random(seed);
 
         for (int i = 0; i < array.length; i++)
             array[i] = new DateEvent(UUID.randomUUID().toString(), Date.from(Instant.ofEpochSecond((long) (r.nextDouble() * 60 * 60 * 24 * 360 * 5))));
 
-        List<DateEvent> list = Arrays.asList(array);
-        Collections.sort(list, (a, b) ->
-        {
-            int result = a.getDate().compareTo(b.getDate());
-            return result == 0 ? a.getName().compareTo(b.getName()) : result;
-        });
-
-        sortedArray = (DateEvent[]) list.toArray();
+        return array;
     }
 
     /**
@@ -70,22 +85,50 @@ public class MergeSortTest
     }
 
     /**
-     * Test sort
+     * Test natural sort
      */
     @Test
-    public void testSort()
+    public void testNaturalSort()
     {
         for (int seed_i = 0; seed_i < 10; seed_i++)
         {
-            setUp(seed + seed_i);
+            sortedArray = getSortedArray(array = getRandomArray(), sort);
 
             DateEvent[] sorted = MergeSort.sort(array);
 
-            for (int i = 0; i < array.length; i++)
-            {
-                assertEquals("Incorrect order!", sortedArray[i], sorted[i]);
-                System.out.println(sortedArray[i]);
-            }
+            checkArray(sortedArray, sorted);
+        }
+    }
+
+    /**
+     * Test sort with comparator
+     */
+    @Test
+    public void testNaturalComparatorSort()
+    {
+        for (int seed_i = 0; seed_i < 10; seed_i++)
+        {
+            sortedArray = getSortedArray(array = getRandomArray(), sort);
+
+            DateEvent[] sorted = MergeSort.sort(array, sort);
+
+            checkArray(sortedArray, sorted);
+        }
+    }
+
+    /**
+     * Test inverse sort
+     */
+    @Test
+    public void testInverseSort()
+    {
+        for (int seed_i = 0; seed_i < 10; seed_i++)
+        {
+            sortedArray = getSortedArray(array = getRandomArray(), sort_inverse);
+
+            DateEvent[] sorted = MergeSort.sort(array, sort_inverse);
+
+            checkArray(sortedArray, sorted);
         }
     }
 }

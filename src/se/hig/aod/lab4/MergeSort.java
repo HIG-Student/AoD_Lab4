@@ -1,6 +1,7 @@
 package se.hig.aod.lab4;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -17,6 +18,12 @@ public class MergeSort<T extends Comparable<? super T>>
     T[] data;
     T[] temporary;
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    static Comparator<Comparable> natural = (a, b) -> a.compareTo(b);
+
+    @SuppressWarnings("unchecked")
+    Comparator<T> comparator = (Comparator<T>) natural;
+
     MergeSort(T[] array)
     {
         this(Arrays.asList(array)); // Copy hax
@@ -26,6 +33,12 @@ public class MergeSort<T extends Comparable<? super T>>
     MergeSort(List<T> list)
     {
         data = (T[]) list.toArray();
+    }
+
+    MergeSort<T> setSort(Comparator<T> comperator)
+    {
+        this.comparator = comperator;
+        return this;
     }
 
     /**
@@ -50,6 +63,34 @@ public class MergeSort<T extends Comparable<? super T>>
     public static <T extends Comparable<? super T>> T[] sort(T[] arr)
     {
         return new MergeSort<T>(arr).sort();
+    }
+
+    /**
+     * Sort the list with mergesort
+     * 
+     * @param list
+     *            the list to sort
+     * @param comperator
+     *            the comparator to use
+     * @return the sorted list
+     */
+    public static <T extends Comparable<? super T>> List<T> sort(List<T> list, Comparator<T> comperator)
+    {
+        return Arrays.asList(new MergeSort<T>(list).setSort(comperator).sort());
+    }
+
+    /**
+     * Sort the list with mergesort
+     * 
+     * @param arr
+     *            the array to sort
+     * @param comperator
+     *            the comparator to use
+     * @return the sorted array
+     */
+    public static <T extends Comparable<? super T>> T[] sort(T[] arr, Comparator<T> comperator)
+    {
+        return new MergeSort<T>(arr).setSort(comperator).sort();
     }
 
     @SuppressWarnings("unchecked")
@@ -79,7 +120,7 @@ public class MergeSort<T extends Comparable<? super T>>
             int iHigh = high;
 
             for (int i = low; i <= high; i++)
-                if (temporary[iLow].compareTo(temporary[iHigh]) > 0)
+                if (comparator.compare(temporary[iLow], temporary[iHigh]) > 0)
                 {
                     data[i] = temporary[iHigh];
                     iHigh--;
