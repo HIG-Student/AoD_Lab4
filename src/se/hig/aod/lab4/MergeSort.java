@@ -46,6 +46,8 @@ public class MergeSort<T extends Comparable<? super T>>
      * <br>
      * Null is not allowed in the list
      * 
+     * @param <T>
+     *            Type to sort
      * @param list
      *            the list to sort
      * @return the sorted list
@@ -60,6 +62,9 @@ public class MergeSort<T extends Comparable<? super T>>
      * <br>
      * Null is not allowed in the list
      * 
+     * 
+     * @param <T>
+     *            Type to sort
      * @param arr
      *            the array to sort
      * @return the sorted array
@@ -74,6 +79,9 @@ public class MergeSort<T extends Comparable<? super T>>
      * <br>
      * Null is not allowed in the list
      * 
+     * 
+     * @param <T>
+     *            Type to sort
      * @param list
      *            the list to sort
      * @param comperator
@@ -90,6 +98,8 @@ public class MergeSort<T extends Comparable<? super T>>
      * <br>
      * Null is not allowed in the list
      * 
+     * @param <T>
+     *            Type to sort
      * @param arr
      *            the array to sort
      * @param comperator
