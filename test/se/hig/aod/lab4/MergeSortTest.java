@@ -131,4 +131,13 @@ public class MergeSortTest
             checkArray(sortedArray, sorted);
         }
     }
+
+    /**
+     * Test empty sort
+     */
+    @Test
+    public void testEmptySort()
+    {
+        MergeSort.sort(new DateEvent[0]);
+    }
 }

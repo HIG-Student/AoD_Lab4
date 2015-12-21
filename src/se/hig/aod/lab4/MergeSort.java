@@ -35,14 +35,16 @@ public class MergeSort<T extends Comparable<? super T>>
         data = (T[]) list.toArray();
     }
 
-    MergeSort<T> setSort(Comparator<T> comperator)
+    MergeSort<T> setSort(Comparator<T> comparator)
     {
-        this.comparator = comperator;
+        this.comparator = comparator;
         return this;
     }
 
     /**
-     * Sort the list with mergesort
+     * Sort the list with mergesort<br>
+     * <br>
+     * Null is not allowed in the list
      * 
      * @param list
      *            the list to sort
@@ -54,7 +56,9 @@ public class MergeSort<T extends Comparable<? super T>>
     }
 
     /**
-     * Sort the list with mergesort
+     * Sort the list with mergesort<br>
+     * <br>
+     * Null is not allowed in the list
      * 
      * @param arr
      *            the array to sort
@@ -66,7 +70,9 @@ public class MergeSort<T extends Comparable<? super T>>
     }
 
     /**
-     * Sort the list with mergesort
+     * Sort the list with mergesort<br>
+     * <br>
+     * Null is not allowed in the list
      * 
      * @param list
      *            the list to sort
@@ -80,7 +86,9 @@ public class MergeSort<T extends Comparable<? super T>>
     }
 
     /**
-     * Sort the list with mergesort
+     * Sort the list with mergesort<br>
+     * <br>
+     * Null is not allowed in the list
      * 
      * @param arr
      *            the array to sort
